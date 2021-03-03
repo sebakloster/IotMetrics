@@ -4,7 +4,8 @@
   "description": "A simple IOT platform - DB Module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
   },
   "author": "sebakloster",
   "license": "MIT",
