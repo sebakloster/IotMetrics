@@ -1,0 +1,16 @@
+{
+  "name": "iotmetrics-db",
+  "version": "1.0.0",
+  "description": "A simple IOT platform - DB Module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sebakloster",
+  "license": "MIT",
+  "dependencies": {
+    "pg": "^8.5.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.5.0"
+  }
+}
