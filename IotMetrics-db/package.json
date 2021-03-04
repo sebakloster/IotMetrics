@@ -4,14 +4,23 @@
   "description": "A simple IOT platform - DB Module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "setup": "DEBUG=iotmetrics:* node setup.js",
+    "test": "DEBUG=iotmetrics:* ava --verbose"
   },
   "author": "sebakloster",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^4.1.0",
+    "debug": "^4.3.1",
+    "defaults": "^1.0.3",
+    "inquirer": "^8.0.0",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.5.0"
+  },
+  "devDependencies": {
+    "ava": "^3.15.0",
+    "sqlite3": "^5.0.2"
   }
 }
