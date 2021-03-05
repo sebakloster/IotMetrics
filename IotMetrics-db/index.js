@@ -25,7 +25,7 @@ module.exports = async function (config) {
   AgentModel.hasMany(MetricModel);
   MetricModel.belongsTo(AgentModel);
 
-  await sequelize.authenticate(); //Deberia capturar el error de esta promesa, no?
+  await sequelize.authenticate();
 
   if (config.setup) {
     await sequelize.sync({ force: true });
