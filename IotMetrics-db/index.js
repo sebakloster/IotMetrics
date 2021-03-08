@@ -3,6 +3,7 @@
 const setupDatabase = require("./lib/db");
 const setupAgentModel = require("./models/agent");
 const setupMetricModel = require("./models/metric");
+const setupAgent = require("./lib/agent");
 const defaults = require("defaults");
 
 module.exports = async function (config) {
@@ -33,7 +34,7 @@ module.exports = async function (config) {
     //El force true significa que si ya existe, la borra y la vuleve a crear.
   }
 
-  const Agent = {};
+  const Agent = setupAgent(AgentModel);
   const Metric = {};
 
   return {
