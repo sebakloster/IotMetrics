@@ -4,7 +4,7 @@ const agent = {
   id: 1,
   uuid: "yyy-yyy-yyy",
   name: "fixture",
-  username: "agent-1",
+  username: "agent1",
   hostname: "test-host",
   pid: 0,
   connected: true,
@@ -23,7 +23,7 @@ const agents = [
     id: 2,
     uuid: "yyy-yyy-yyw",
     connected: false,
-    username: "agent-2",
+    username: "agent2",
   }),
   extend(agent, {
     id: 3,
@@ -32,7 +32,7 @@ const agents = [
   extend(agent, {
     id: 4,
     uuid: "yyy-yyy-yyz",
-    username: "agent-4",
+    username: "agent4",
   }),
 ];
 
@@ -40,7 +40,7 @@ module.exports = {
   single: agent,
   all: agents,
   connected: agents.filter((a) => a.connected),
-  agent1: agents.filter((a) => a.username == "agent-1"),
+  agent1: agents.filter((a) => a.username == "agent1"),
   byUuid: (id) => agents.find((a) => a.uuid == id),
   byId: (id) => agents.find((a) => a.id == id),
 };
