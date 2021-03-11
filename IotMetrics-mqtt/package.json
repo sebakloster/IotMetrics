@@ -1,0 +1,25 @@
+{
+  "name": "iotmetrics-mqtt",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A simple Iot Platform - MQTT",
+  "main": "server.js",
+  "scripts": {
+    "start": "NODE_ENV=production node server.js",
+    "start-dev": "DEBUG=iotmetrics:* nodemon server.js"
+  },
+  "author": "sebakloster",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "debug": "^3.2.7",
+    "iotmetrics-db": "file:../IotMetrics-db",
+    "jsonschema": "^1.2.6",
+    "mosca": "^2.8.3",
+    "mqtt": "^1.14.1",
+    "redis": "^3.0.2"
+  }
+}
