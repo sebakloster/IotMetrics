@@ -55,7 +55,7 @@ class IotMetricsAgent extends EventEmitter {
 
         this._timer = setInterval(async () => {
           if (this._metrics.size > 0) {
-            let message = {
+            var message = {
               agent: {
                 uuid: this._agentId,
                 username: opts.username,
@@ -84,7 +84,7 @@ class IotMetricsAgent extends EventEmitter {
         }, opts.interval);
       });
 
-      this._client.options("message", (topic, payload) => {
+      this._client.on("message", (topic, payload) => {
         payload = parsePayload(payload);
 
         let broadcast = false;
