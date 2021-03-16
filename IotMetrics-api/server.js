@@ -5,6 +5,7 @@ const chalk = require("chalk");
 const debug = require("debug")("iotmetrics:api");
 const port = process.env.PORT || 3000;
 const bodyparser = require("body-parser");
+
 const app = express();
 
 const apiRouter = require("./router");
@@ -29,11 +30,15 @@ function handleFatalError(err) {
   process.exit(1);
 }
 
-process.on("uncaughtException", handleFatalError);
-process.on("unhandledRejection", handleFatalError);
+if (!module.parent) {
+  process.on("uncaughtException", handleFatalError);
+  process.on("unhandledRejection", handleFatalError);
 
-app.listen(port, () => {
-  console.log(
-    `${chalk.green("[iotMetrics-api]")} server listening on port ${port}`
-  );
-});
+  app.listen(port, () => {
+    console.log(
+      `${chalk.green("[iotMetrics-api]")} server listening on port ${port}`
+    );
+  });
+}
+
+module.exports = app;

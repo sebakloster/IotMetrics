@@ -7,17 +7,22 @@
   "scripts": {
     "start": "NODE_ENV=production node server.js",
     "start-dev": "DEBUG=iotmetrics:* nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "DEBUG=iotmetrics:* ava tests/* --verbose"
   },
   "author": "sebakloster",
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "ava": "^3.15.0",
+    "nodemon": "^2.0.7",
+    "proxyquire": "^2.1.3",
+    "sinon": "^9.2.4",
+    "supertest": "^6.1.3"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
     "chalk": "^3.0.0",
     "debug": "^3.2.7",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "iotmetrics-db": "file:../IotMetrics-db"
   }
 }

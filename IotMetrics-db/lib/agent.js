@@ -35,7 +35,7 @@ module.exports = function setupAgent(AgentModel) {
   function findConnected() {
     return AgentModel.findAll({
       where: {
-        connected: true,
+        connected: false,
       },
     });
   }
