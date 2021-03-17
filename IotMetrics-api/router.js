@@ -3,8 +3,10 @@
 const debug = require("debug")("iotmetrics:api:routes");
 const express = require("express");
 const customErrors = require("./utils/customErrors");
+const guard = require("express-jwt-permissions")();
 const db = require("iotmetrics-db");
 const config = require("./config");
+const auth = require("express-jwt");
 const router = express.Router();
 
 let services, Agent, Metric;
@@ -23,12 +25,22 @@ router.use("*", async (req, res, next) => {
   next();
 });
 
-router.get("/agents", async (req, res, next) => {
+router.get("/agents", auth(config.auth), async (req, res, next) => {
   debug("A request has come to /agents");
+
+  const { user } = req;
+
+  if (!user || !user.username) {
+    return next(new Error("Not authorized"));
+  }
 
   let agents = [];
   try {
-    agents = await Agent.findConnected();
+    if (user.admin) {
+      agents = await Agent.findConnected();
+    } else {
+      agents = await Agent.findByUsername(user.username);
+    }
   } catch (error) {
     return next(error);
   }
@@ -55,25 +67,30 @@ router.get("/agent/:uuid", async (req, res, next) => {
   res.send(agent);
 });
 
-router.get("/metrics/:uuid", async (req, res, next) => {
-  const { uuid } = req.params;
+router.get(
+  "/metrics/:uuid",
+  auth(config.auth),
+  guard.check(["metrics:read"]),
+  async (req, res, next) => {
+    const { uuid } = req.params;
 
-  debug(`Request to /metrics/${uuid}`);
+    debug(`Request to /metrics/${uuid}`);
 
-  let metrics = [];
+    let metrics = [];
 
-  try {
-    metrics = await Metric.findByAgentUuid(uuid);
-  } catch (error) {
-    return next(error);
+    try {
+      metrics = await Metric.findByAgentUuid(uuid);
+    } catch (error) {
+      return next(error);
+    }
+
+    if (!metrics || metrics.length == 0) {
+      return next(new customErrors.MetricsNotFoundError(uuid));
+    }
+
+    res.send(metrics);
   }
-
-  if (!metrics || metrics.length == 0) {
-    return next(new customErrors.MetricsNotFoundError(uuid));
-  }
-
-  res.send(metrics);
-});
+);
 
 router.get("/metrics/:uuid/:type", async (req, res, next) => {
   const { uuid, type } = req.params;

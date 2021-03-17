@@ -1,15 +1,20 @@
 "use strict";
 
 const test = require("ava");
+const util = require("util");
 const request = require("supertest");
 const sinon = require("sinon");
 const proxyquire = require("proxyquire");
 
 const agentFixtures = require("./fixtures/agent");
+const auth = require("../auth");
+const sign = util.promisify(auth.sign);
+const config = require("../config");
 
 let sandbox = null;
 let app = null;
 let dbStub = null;
+let token = null;
 let AgentStub = {};
 let MetricStub = {};
 const uuid = "yyy-yyy-yyy";
@@ -27,6 +32,8 @@ test.beforeEach(async () => {
 
   AgentStub.findConnected = sandbox.stub();
   AgentStub.findConnected.returns(Promise.resolve(agentFixtures.connected));
+
+  token = await sign({ admin: true, username: "secret" }, config.auth.secret);
 
   AgentStub.findByUuid = sandbox.stub();
   AgentStub.findByUuid
@@ -52,6 +59,7 @@ test.afterEach(() => {
 test.serial.cb("/api/agents", (t) => {
   request(app)
     .get("/api/agents")
+    .set("Authorization", `Bearer ${token}`)
     .expect(200)
     .expect("Content-Type", /json/)
     .end((err, res) => {
