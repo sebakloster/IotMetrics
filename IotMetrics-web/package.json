@@ -1,0 +1,23 @@
+{
+  "name": "iotmetrics-web",
+  "version": "1.0.0",
+  "description": "A simple IOT platform - Web Dashboard",
+  "main": "server.js",
+  "scripts": {
+    "start": "NODE_ENV=production node server.js",
+    "start-dev": "DEBUG=iotmetrics:* nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sebakloster",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "debug": "^3.2.7",
+    "express": "^4.17.1",
+    "iotmetrics-agent": "file:../IotMetrics-agent",
+    "socket.io": "^4.0.0"
+  }
+}

@@ -55,7 +55,7 @@ class IotMetricsAgent extends EventEmitter {
 
         this._timer = setInterval(async () => {
           if (this._metrics.size > 0) {
-            var message = {
+            let message = {
               agent: {
                 uuid: this._agentId,
                 username: opts.username,
@@ -66,21 +66,21 @@ class IotMetricsAgent extends EventEmitter {
               metrics: [],
               timestamp: new Date().getTime(),
             };
-          }
 
-          for (let [metric, fn] of this._metrics) {
-            if (fn.length == 1) {
-              fn = util.promisify(fn);
+            for (let [metric, fn] of this._metrics) {
+              if (fn.length == 1) {
+                fn = util.promisify(fn);
+              }
+              message.metrics.push({
+                type: metric,
+                value: await Promise.resolve(fn()),
+              });
             }
-            message.metrics.push({
-              type: metric,
-              value: await Promise.resolve(fn()),
-            });
-          }
 
-          debug(`Sending`, message);
-          this._client.publish("agent/message", JSON.stringify(message));
-          this.emit("message", message);
+            debug(`Sending`, message);
+            this._client.publish("agent/message", JSON.stringify(message));
+            this.emit("message", message);
+          }
         }, opts.interval);
       });
 
@@ -92,7 +92,7 @@ class IotMetricsAgent extends EventEmitter {
         switch (topic) {
           case "agent/connected":
           case "agent/disconnected":
-          case "agent/menssage":
+          case "agent/message":
             broadcast =
               payload && payload.agent && payload.agent.uuid !== this._agentId;
             break;
