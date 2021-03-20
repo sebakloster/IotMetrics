@@ -29,8 +29,11 @@
     "express": "^4.17.1",
     "express-asyncify": "^1.0.1",
     "iotmetrics-agent": "file:../IotMetrics-agent",
+    "moment": "^2.29.1",
+    "random-material-color": "^1.0.5",
     "request-promise-native": "^1.0.9",
     "socket.io": "^4.0.0",
+    "socket.io-client": "^4.0.0",
     "vue": "^2.6.12",
     "vue-chartjs": "^3.5.1"
   }
