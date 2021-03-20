@@ -3,19 +3,22 @@
 const debug = require("debug")("iotmetrics:web");
 const chalk = require("chalk");
 const path = require("path");
+const asyncify = require("express-asyncify");
 
 const port = process.env.PORT || 8080;
 const express = require("express");
 const socketio = require("socket.io");
 const IotMetricsAgent = require("iotmetrics-agent");
-const app = express();
+const app = asyncify(express());
 const server = require("http").createServer(app);
 
 const io = socketio(server);
 const agent = new IotMetricsAgent();
 
-app.use(express.static(path.join(__dirname, "public")));
+const proxy = require("./proxy");
 
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/", proxy);
 //Socket io / websockets
 
 io.on("connect", (socket) => {
@@ -30,6 +33,17 @@ io.on("connect", (socket) => {
   agent.on("agent/disconnected", (payload) => {
     socket.emit("agent/disconnected", payload);
   });
+});
+
+//Express error handler
+app.use((err, req, res, next) => {
+  debug(`Error: ${err.message}`);
+
+  if (err.message.match(/not found/)) {
+    return res.status(404).send({ error: err.message });
+  }
+
+  res.status(500).send({ error: err.message });
 });
 
 function handleFatalError(err) {
