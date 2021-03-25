@@ -1,4 +1,8 @@
-"use strict";
+if (process.env.NODE_ENV !== "production") {
+  require("longjohn");
+}
+
+("use strict");
 
 const debug = require("debug")("iotmetrics:agent");
 const os = require("os");

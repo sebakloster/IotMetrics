@@ -1,4 +1,8 @@
-"use strict";
+if (process.env.NODE_ENV !== "production") {
+  require("longjohn");
+}
+
+("use strict");
 
 const debug = require("debug")("iotmetrics:mqtt");
 const mosca = require("mosca");
