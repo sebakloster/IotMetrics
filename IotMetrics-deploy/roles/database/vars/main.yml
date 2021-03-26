@@ -1,0 +1,12 @@
+postgresql_database:
+  - name: iotmetrics
+    owner: admin
+    hstore: yes
+postgresql_users:
+  - name: admin
+  - pass: admin1234
+    encrypted: no
+postgresql_user_privileges:
+  - name: admin
+    db: iotmetrics
+    priv: "ALL"

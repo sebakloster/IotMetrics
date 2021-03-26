@@ -6,9 +6,10 @@
   "scripts": {
     "start": "NODE_ENV=production node server.js",
     "prestart": "npm run build",
-    "build": "browserify -t babelify -t vueify client/app.js -o public/bundle.js",
+    "build": "NODE_ENV=production browserify -g envify -t babelify -t vueify client/app.js | terser -c -m -o public/bundle.js",
+    "build-dev": "browserify -g envify -t babelify -t vueify client/app.js -o public/bundle.js",
     "start-dev": "DEBUG=iotmetrics:* nodemon server.js",
-    "prestart-dev": "npm run build",
+    "prestart-dev": "npm run build-dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "sebakloster",
@@ -19,7 +20,9 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babelify": "^10.0.0",
     "browserify": "^17.0.0",
+    "envify": "^4.1.0",
     "nodemon": "^2.0.7",
+    "terser": "^5.6.1",
     "vueify": "^9.4.1"
   },
   "dependencies": {

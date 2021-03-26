@@ -1,0 +1,4 @@
+---
+dependencies:
+  - { role: ANXS.posatgresql }
+  - { role: geerlingguy.redis }
