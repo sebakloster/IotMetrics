@@ -29,7 +29,7 @@ agent.addMetric("callbackMetric", function getRandomCallback(callback) {
 
 agent.connect();
 ```
-Once agents are created, you can add metrics to them and visualize them on the web or in the CLI!
+Once agents are created, they can measure metrics which you can visualize on the web or in the CLI!
 
 ![alt text](https://i.imgur.com/MvESicA.png)
 
